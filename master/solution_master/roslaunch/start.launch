@@ -1,0 +1,10 @@
+<launch> 
+    <!-- Start Nodes -->
+    <node pkg="tf" type="static_transform_publisher" name="wrist_to_grip_point" args="0 0 0.15 0 0 0 1 wrist_3_link grip_point 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="" args="0 0 0.15 0 0 wrist_3_link grip_point 100" /> -->
+    <node name="example_node" pkg="solution_master" type="example.py" output="screen"></node>
+    <include file="$(find ur5_robotiq85_moveit)/launch/move_group.launch" />
+    <!-- <node name='rviz_visualization' pkg='rviz' type='rviz' args='-d $(find solution_master)/rviz/visualization.rviz' /> -->
+    <!-- End Nodes -->
+    <node name="strategy" pkg="solution_master" type="example_move.py" output="screen"></node>
+</launch>

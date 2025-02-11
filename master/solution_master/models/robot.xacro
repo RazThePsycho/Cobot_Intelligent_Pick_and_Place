@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5_robot">
+  <!--
+    Adapted from robot description for UR5
+  -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.xacro" />
+  <xacro:include filename="$(find robotiq_85_description)/urdf/robotiq_85_gripper.urdf.xacro" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.49" rpy="0 0 ${-pi/2}"/>
+  </joint>
+
+
+
+  <link name="tool0_controller"/>
+  <joint name="tool_controller_fake_joint" type="fixed">
+    <parent link="tool0"/>
+    <child link="tool0_controller"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="hand_eye_camera_link"/>
+  <joint name="hand_eye_camera_joint" type="fixed">
+    <parent link="tool0"/>
+    <child link="hand_eye_camera_link"/>
+    <origin xyz="0.0 -0.04 0.0" rpy="0 ${-pi/2} ${pi/2}"/>
+  </joint>
+
+  <xacro:sensor_d435 parent="hand_eye_camera_link" name="hand_eye">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:sensor_d435>
+
+  <xacro:robotiq_85_gripper prefix="" parent="wrist_3_link" >
+    <origin xyz="0.0 0 0.0" rpy="0 ${-pi/2} ${pi/2}"/>
+  </xacro:robotiq_85_gripper>
+
+
+</robot>
